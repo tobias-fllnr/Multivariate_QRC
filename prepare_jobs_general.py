@@ -120,6 +120,7 @@ else:
 if params_list:
     run_id = datetime.now().strftime("%m%d%H%M")
     relative_outdir = f"Results_run/{name}_results_{run_id}"
+    project_dir = os.path.abspath(".")
 
     # Create local directories
     os.makedirs(relative_outdir, exist_ok=True)
@@ -133,6 +134,13 @@ if params_list:
     slurm_filename = f"jobs/submit_{name}_{run_id}.slurm"
 
     target_script = "run_optuna_job" if name.startswith("optuna_") else "run_general_job"
+
+    if name.startswith("optuna"):
+        request_cpus = 10
+        request_memory = "8000M"
+    else:
+        request_cpus = 1
+        request_memory = "2048M"
 
     # A. Write arguments file
     with open(args_filename, "w") as f:
@@ -167,17 +175,18 @@ echo "All $TOTAL jobs completed."
     os.chmod(local_filename, 0o755)
 
     # C. Generate HTCondor submit file
+    #    Uses initialdir so jobs run from the project directory on the shared filesystem.
     with open(condor_filename, "w") as f:
         f.write(f"""\
+initialdir = {project_dir}
 Executable = {target_script}.sh
 Arguments = $(ARGS)
 Log    = logs/$(Cluster)_$(Process).log
 Output = logs/$(Cluster)_$(Process).out
 Error  = logs/$(Cluster)_$(Process).err
-should_transfer_files = YES
-when_to_transfer_output = ON_EXIT
-request_cpus = 10
-request_memory = 8000MB
+should_transfer_files = NO
+request_cpus = {request_cpus}
+request_memory = {request_memory}B
 Queue ARGS from {args_filename}
 """)
 
@@ -187,11 +196,11 @@ Queue ARGS from {args_filename}
 #SBATCH --job-name={name}
 #SBATCH --output=logs/%A_%a.out
 #SBATCH --error=logs/%A_%a.err
-#SBATCH --cpus-per-task=1
-#SBATCH --mem=2048M
+#SBATCH --cpus-per-task={request_cpus}
+#SBATCH --mem={request_memory}
 #SBATCH --time=2:00:00
 
-# Activate environment (adjust path to your virtual environment)
+cd {project_dir}
 source .venv/bin/activate
 
 OFFSET=${{OFFSET:-0}}
