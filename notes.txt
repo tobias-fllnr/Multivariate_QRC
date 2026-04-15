@@ -1,0 +1,267 @@
+03051121: optuna_mixing_capacity_qrc_tilted_tfim
+encoding_mode="one_to_one"
+    params_list = [
+        (n, d)
+        for n in [2, 3, 4, 5, 6]
+        for d in [2, 3, 4, 5, 6]
+        if n >= d
+    ]
+
+03051301: optuna_mixing_capacity_qrc_gaussian
+encoding_mode="one_to_one"
+    params_list = [
+        (n, d)
+        for n in [2, 3, 4, 5, 6, 7, 8, 9, 10]
+        for d in [2, 3, 4, 5, 6, 7, 8, 9, 10]
+        if n >= d
+    ]
+
+03051418: optuna_mixing_capacity_qrc_gaussian
+    params_list = [
+        (n, d, encoding_mode)
+        for n in [2, 3, 4, 5, 6, 7, 8]
+        for d in [2, 3, 4, 5, 6, 7, 8]
+        for encoding_mode in ["dense"]
+    ]
+
+03051521: optuna_mixing_capacity_qrc_gaussian
+    params_list = [
+        (n, d, encoding_mode)
+        for n in [2, 3, 4, 5, 6, 7, 8]
+        for d in [2, 3, 4, 5, 6, 7, 8]
+        for encoding_mode in ["fill"]
+        if n >= d
+    ]
+
+03052258: optuna_mixing_capacity_qrc_tilted_tfim
+    params_list = [
+        (n, d, encoding_mode)
+        for n in [2, 3, 4, 5, 6]
+        for d in [2, 3, 4, 5, 6]
+        for encoding_mode in ["fill"]
+        if n >= d
+    ]
+
+03052300: optuna_mixing_capacity_qrc_tilted_tfim
+    params_list = [
+        (n, d, encoding_mode)
+        for n in [2, 3, 4, 5, 6]
+        for d in [2, 3, 4, 5, 6]
+        for encoding_mode in ["dense"]
+    ]
+
+03060920: mixing_capacity_qrc_gaussian
+    return_quantum_measures = True
+    return_second_moments = True
+    params_list = [
+        (n, d, encoding_mode, dt, encoding_strength, coupling_strength, gamma, seed)
+        for n in [6]
+        for d in [2]
+        for encoding_mode in ["one_to_one"]
+        for dt in [1.0]
+        for encoding_strength in np.logspace(-4, 0, 13)
+        for coupling_strength in np.logspace(-5, 1, 19)
+        for gamma in [5.0]
+        for seed in range(20)
+    ]
+
+03061219: mixing_capacity_qrc_gaussian
+    return_quantum_measures = True
+    return_second_moments = True
+    params_list = [
+        (n, d, encoding_mode, dt, encoding_strength, coupling_strength, gamma, seed)
+        for n in [6]
+        for d in [2]
+        for encoding_mode in ["fill"]
+        for dt in [1.0]
+        for encoding_strength in np.logspace(-4, 0, 13)
+        for coupling_strength in np.logspace(-5, 1, 19)
+        for gamma in [3.0]
+        for seed in range(20)
+    ]
+
+03061220: mixing_capacity_qrc_gaussian
+    return_quantum_measures = True
+    return_second_moments = True
+    params_list = [
+        (n, d, encoding_mode, dt, encoding_strength, coupling_strength, gamma, seed)
+        for n in [6]
+        for d in [2]
+        for encoding_mode in ["dense"]
+        for dt in [1.0]
+        for encoding_strength in np.logspace(-4, 0, 13)
+        for coupling_strength in np.logspace(-5, 1, 19)
+        for gamma in [3.0]
+        for seed in range(20)
+    ]
+
+
+03080810: mixing_capacity_qrc_tilted_tfim
+    return_quantum_measures = True
+    return_second_moments = True
+    params_list = [
+        (n, d, encoding_mode, dt, encoding_strength, coupling_strength, gamma, seed)
+        for n in [6]
+        for d in [2]
+        for encoding_mode in ["one_to_one"]
+        for dt in [1.0]
+        for encoding_strength in np.logspace(-4, 0, 13)
+        for coupling_strength in np.logspace(-5, 1, 19)
+        for gamma in [10.0]
+        for seed in range(20)
+    ]
+
+03080816: mixing_capacity_qrc_tilted_tfim
+    return_quantum_measures = True
+    return_second_moments = True
+    params_list = [
+        (n, d, encoding_mode, dt, encoding_strength, coupling_strength, gamma, seed)
+        for n in [6]
+        for d in [2]
+        for encoding_mode in ["fill"]
+        for dt in [1.0]
+        for encoding_strength in np.logspace(-4, 0, 13)
+        for coupling_strength in np.logspace(-5, 1, 19)
+        for gamma in [5.0]
+        for seed in range(20)
+    ]
+
+03080818: mixing_capacity_qrc_tilted_tfim
+    return_quantum_measures = True
+    return_second_moments = True
+        params_list = [
+        (n, d, encoding_mode, dt, encoding_strength, coupling_strength, gamma, seed)
+        for n in [6]
+        for d in [2]
+        for encoding_mode in ["dense"]
+        for dt in [1.0]
+        for encoding_strength in np.logspace(-4, 0, 13)
+        for coupling_strength in np.logspace(-5, 1, 19)
+        for gamma in [3.0]
+        for seed in range(20)
+    ]
+
+03080904: optuna_lorenz63_qrc_gaussian
+    params_list = [
+        (n, d, target, encoding_mode)
+        for n in [6]
+        for d in [1, 2, 3]
+        for target in ["x_1", "y_1", "z_1", "all_1"]
+        for encoding_mode in ["one_to_one"]
+    ]
+
+03080905: optuna_lorenz63_qrc_gaussian
+    params_list = [
+        (n, d, target, encoding_mode)
+        for n in [6]
+        for d in [1, 2, 3]
+        for target in ["x_1", "y_1", "z_1", "all_1"]
+        for encoding_mode in ["dense"]
+    ]
+
+03081311: optuna_lorenz63_qrc_gaussian
+    params_list = [
+        (n, d, target, encoding_mode)
+        for n in [6]
+        for d in [1, 2, 3]
+        for target in ["x_1", "y_1", "z_1", "all_1"]
+        for encoding_mode in ["fill"]
+    ]
+
+03081326: optuna_lorenz63_qrc_tilted_tfim
+    params_list = [
+        (n, d, target, encoding_mode)
+        for n in [6]
+        for d in [1, 2, 3]
+        for target in ["x_1", "y_1", "z_1", "all_1"]
+        for encoding_mode in ["one_to_one"]
+    ]
+
+03081328: optuna_lorenz63_qrc_tilted_tfim
+    params_list = [
+        (n, d, target, encoding_mode)
+        for n in [6]
+        for d in [1, 2, 3]
+        for target in ["x_1", "y_1", "z_1", "all_1"]
+        for encoding_mode in ["dense"]
+    ]
+
+03081329: optuna_lorenz63_qrc_tilted_tfim
+    params_list = [
+        (n, d, target, encoding_mode)
+        for n in [6]
+        for d in [1, 2, 3]
+        for target in ["x_1", "y_1", "z_1", "all_1"]
+        for encoding_mode in ["fill"]
+    ]
+
+03081457: lorenz63_qrc_gaussian
+    params_list = [
+        (n, d, encoding_mode, dt, encoding_strength, coupling_strength, gamma, seed)
+        for n in [6]
+        for d, gamma in [(1, 4.0), (2, 5.0), (3, 7.0)]
+        for encoding_mode in ["one_to_one"]
+        for dt in [1.0]
+        for encoding_strength in np.logspace(-4, 0, 13)
+        for coupling_strength in np.logspace(-5, 1, 19)
+        for seed in range(20)
+    ]
+
+03081501: lorenz63_qrc_gaussian
+    params_list = [
+        (n, d, encoding_mode, dt, encoding_strength, coupling_strength, gamma, seed)
+        for n in [6]
+        for d, gamma in [(1, 3.0), (2, 2.0), (3, 12.0)]
+        for encoding_mode in ["dense"]
+        for dt in [1.0]
+        for encoding_strength in np.logspace(-4, 0, 13)
+        for coupling_strength in np.logspace(-5, 1, 19)
+        for seed in range(20)
+    ]
+
+03111048: lorenz63_qrc_gaussian
+    params_list = [
+        (n, d, encoding_mode, dt, encoding_strength, coupling_strength, gamma, seed)
+        for n in [6]
+        for d, gamma in [(1, 5.0), (2, 10.0), (3, 20.0)]
+        for encoding_mode in ["fill"]
+        for dt in [1.0]
+        for encoding_strength in np.logspace(-4, 0, 13)
+        for coupling_strength in np.logspace(-5, 1, 19)
+        for seed in range(20)
+    ]
+
+03160921: lorenz63_qrc_tilted_tfim
+    params_list = [
+        (n, d, encoding_mode, dt, encoding_strength, coupling_strength, gamma, seed)
+        for n in [6]
+        for d, gamma in [(1, 5.0), (2, 4.0), (3, 6.0)]
+        for encoding_mode in ["one_to_one"]
+        for dt in [1.0]
+        for encoding_strength in np.logspace(-4, 0, 13)
+        for coupling_strength in np.logspace(-5, 1, 19)
+        for seed in range(20)
+    ]
+
+03161007: lorenz63_qrc_tilted_tfim
+    params_list = [
+        (n, d, encoding_mode, dt, encoding_strength, coupling_strength, gamma, seed)
+        for n in [6]
+        for d, gamma in [(1, 3.0), (2, 5.0), (3, 7.0)]
+        for encoding_mode in ["fill"]
+        for dt in [1.0]
+        for encoding_strength in np.logspace(-4, 0, 13)
+        for coupling_strength in np.logspace(-5, 1, 19)
+        for seed in range(20)
+    ]
+03161009: lorenz63_qrc_tilted_tfim
+    params_list = [
+        (n, d, encoding_mode, dt, encoding_strength, coupling_strength, gamma, seed)
+        for n in [6]
+        for d, gamma in [(1, 5.0), (2, 4.0), (3, 5.0)]
+        for encoding_mode in ["dense"]
+        for dt in [1.0]
+        for encoding_strength in np.logspace(-4, 0, 13)
+        for coupling_strength in np.logspace(-5, 1, 19)
+        for seed in range(20)
+    ]

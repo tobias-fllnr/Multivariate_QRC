@@ -1,0 +1,9 @@
+matplotlib==3.10.3
+notebook==7.4.3
+numpy==2.4.1
+optuna==4.7.0
+pandas==2.3.3
+plotly==6.5.2
+qutip==5.2.2
+scikit-learn==1.6.1
+scipy==1.17.0
