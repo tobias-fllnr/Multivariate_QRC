@@ -20,7 +20,7 @@ def run_mixing_capacity_qrc_tilted_tfim(parameters: dict) -> dict:
     total_length = washout + train_length
     data = generate_random_sequence(length=total_length, dimension=d, seed=seed)
     reservoir = SpinQRC(n=n, encoding_strength=encoding_strength, coupling_strength=coupling_strength, gamma=gamma, dt=dt, model="TiltedTFIM", encoding_method=encoding_mode, observables="local_and_twoqubit", seed=seed)
-    measurements, negativity, coherence = reservoir.run(data, return_negativity=True, return_coherence=True)
+    measurements, negativity = reservoir.run(data, return_negativity=True, return_coherence=False)
     measurements_local = measurements[:, :3*n]
     max_degree = min(d, 2)
     ipc_local = IPC(values=measurements_local, targets=data, washout=washout, train_length=train_length)
@@ -29,7 +29,6 @@ def run_mixing_capacity_qrc_tilted_tfim(parameters: dict) -> dict:
     result.update({f"first_moment_{k}": v for k, v in capacity_mixing_local.items()})
     result.update({f"first_moment_breakdown_{k}": v for k, v in mixing_capacity_breakdown_local.items()})
     result['negativity'] = np.mean(negativity[washout:washout+train_length])
-    result['coherence'] = np.mean(coherence[washout:washout+train_length])
     return result
 
 
@@ -51,10 +50,10 @@ def run_mixing_capacity_qrc_gaussian(parameters: dict) -> dict:
         cov_measurements="q_only",
         encoding_mode=encoding_mode,
         seed=seed,
-        return_fourth_moments=True
+        return_fourth_moments=False
     )
-    means, flat_covs, fourth_moments, negativity, purity, squeezing = reservoir.run(
-        data, return_negativity=True, return_purity=True, return_squeezing=True
+    means, flat_covs, squeezing = reservoir.run(
+        data, return_negativity=False, return_purity=False, return_squeezing=True
     )
     max_degree = min(d, 2)
     ipc_covs = IPC(values=flat_covs, targets=data, washout=washout, train_length=train_length)
@@ -62,8 +61,6 @@ def run_mixing_capacity_qrc_gaussian(parameters: dict) -> dict:
     result = {k: parameters[k] for k in ['n', 'd', 'encoding_mode', 'dt', 'encoding_strength', 'coupling_strength', 'gamma', 'seed']}
     result.update({f"first_moment_{k}": v for k, v in capacity_mixing_covs.items()})
     result.update({f"first_moment_breakdown_{k}": v for k, v in mixing_capacity_breakdown_covs.items()})
-    result['negativity'] = np.mean(negativity[washout:washout+train_length])
-    result['purity'] = np.mean(purity[washout:washout+train_length])
     result['squeezing'] = np.mean(squeezing[washout:washout+train_length])
     return result
 
@@ -82,14 +79,13 @@ def run_lorenz63_qrc_tilted_tfim(parameters: dict) -> dict:
     min_max_normalized_data = normalize_data_min_max(data.copy())
     data_in = min_max_normalized_data[:, :d]
     reservoir = SpinQRC(n=n, encoding_strength=encoding_strength, coupling_strength=coupling_strength, gamma=gamma, dt=dt, model="TiltedTFIM", encoding_method=encoding_mode, observables="local_and_twoqubit", seed=seed)
-    measurements, negativity, coherence = reservoir.run(data_in, return_negativity=True, return_coherence=False)
+    measurements, negativity = reservoir.run(data_in, return_negativity=True, return_coherence=False)
     measurements_local = measurements[:, :3*n]
     prediction_local = Prediction(observations=measurements_local, data=data, washout=washout, train_length=train_length, test_length=test_length, model="linear")
     pred_results_local = prediction_local.prediction_multi_step(max_steps=10)
     result = {k: parameters[k] for k in ['n', 'd', 'encoding_mode', 'dt', 'encoding_strength', 'coupling_strength', 'gamma', 'seed']}
     result.update({f"first_moment_{k}": v for k, v in pred_results_local.items()})
     result['negativity'] = np.mean(negativity[washout:washout+train_length])
-    result['coherence'] = np.mean(coherence[washout:washout+train_length])
     return result
 
 
@@ -106,16 +102,14 @@ def run_lorenz63_qrc_gaussian(parameters: dict) -> dict:
     data = generator.generate()
     min_max_normalized_data = normalize_data_min_max(data.copy())
     data_in = min_max_normalized_data[:, :d]
-    reservoir = GaussianQRC(n=n, encoding_strength=encoding_strength, coupling_strength=coupling_strength, gamma=gamma, dt=dt, encoding_mode=encoding_mode, cov_measurements="q_only", return_fourth_moments=True, seed=seed)
-    means, flat_covs, fourth_moments, negativity, purity, squeezing = reservoir.run(
+    reservoir = GaussianQRC(n=n, encoding_strength=encoding_strength, coupling_strength=coupling_strength, gamma=gamma, dt=dt, encoding_mode=encoding_mode, cov_measurements="q_only", return_fourth_moments=False, seed=seed)
+    means, flat_covs, squeezing = reservoir.run(
         data_in, return_negativity=False, return_purity=False, return_squeezing=True
     )
     prediction_covs = Prediction(observations=flat_covs, data=data, washout=washout, train_length=train_length, test_length=test_length, model="linear")
     pred_results_covs = prediction_covs.prediction_multi_step(max_steps=10)
     result = {k: parameters[k] for k in ['n', 'd', 'encoding_mode', 'dt', 'encoding_strength', 'coupling_strength', 'gamma', 'seed']}
     result.update({f"first_moment_{k}": v for k, v in pred_results_covs.items()})
-    result['negativity'] = np.mean(negativity[washout:washout+train_length])
-    result['purity'] = np.mean(purity[washout:washout+train_length])
     result['squeezing'] = np.mean(squeezing[washout:washout+train_length])
     return result
 
